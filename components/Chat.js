@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
-const Chat = ({ route, navigation }) => {
+const Chat = ({ db, route, navigation }) => {
   const { name, backgroundColor } = route.params;
   //Create a state variable to hold the messages
   const [messages, setMessages] = useState([]);
+  const { userID } = route.params;
 
   useEffect(() => {
-    setMessages([
-      {
-        //Show this default message when the chat screen is opened
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-      {
-        //Automatic/system message
-        _id: 2,
-        text: `${name} joined the chat!`,
-        createdAt: new Date(),
-        system: true,
-      },
-    ]);
     navigation.setOptions({ title: name });
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const unsubShoppinglists = onSnapshot(q, (documentsSnapshot) => {
+      let newLists = [];
+      documentsSnapshot.forEach((doc) => {
+        newLists.push({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: new Date(doc.data().createdAt.toMillis()),
+        });
+      });
+      setMessages(newLists);
+    });
+    // Clean up code
+    return () => {
+      if (unsubShoppinglists) unsubShoppinglists();
+    };
   }, []);
   const renderBubble = (props) => {
     return (
@@ -46,10 +51,9 @@ const Chat = ({ route, navigation }) => {
     );
   };
   const onSend = (newMessages) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, newMessages)
-    );
+    addDoc(collection(db, "messages"), newMessages[0]);
   };
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <GiftedChat
