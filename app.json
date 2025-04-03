@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pradnya_atl.chatapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

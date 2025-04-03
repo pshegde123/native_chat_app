@@ -13,6 +13,7 @@ import {
 import { useNetInfo } from "@react-native-community/netinfo";
 import { LogBox, Alert } from "react-native";
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
+import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,6 +29,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+// Initialize Firebase Storage - to store the image blob to Firebase Storage
+const storage = getStorage(app);
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +54,7 @@ export default function App() {
             <Chat
               isConnected={connectionStatus.isConnected}
               db={db}
+              storage={storage}
               {...props}
             />
           )}
