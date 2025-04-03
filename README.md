@@ -1,5 +1,8 @@
 # React Native Mobile Chat App
 
+![screenshot](./assets/screenshot1.png)
+
+
 Chat App is a real-time messaging app that allows users to send text, images, and location data while monitoring their network connection status. It supports offline mode and syncs data when the connection is restored.
 
 ## Features
