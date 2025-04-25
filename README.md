@@ -6,7 +6,8 @@
 This app is developed as a part of CareerFoundry coursework.
 
 
-Chat App is a real-time messaging app that allows users to send text, images, and location data while monitoring their network connection status. It supports offline mode and syncs data when the connection is restored.
+Chat App is a mobile chat application built with React Native and Expo. It provides users with a seamless chat experience where they can send messages, share images, and their location. The app uses Google Firebase for real-time data storage and authentication. It supports offline mode and syncs data when the connection is restored.
+
 
 ## Features
 - Developed using **Expo**
